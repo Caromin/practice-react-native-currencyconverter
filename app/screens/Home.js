@@ -6,6 +6,7 @@ import {InputWithButton} from '../components/TextInput/index';
 import {ClearButton} from '../components/Button/index';
 import {LastConverted} from '../components/Text';
 import {Header} from '../components/Header';
+import PropTypes from 'prop-types';
 
 const TEMP_BASE_CURRENCY = 'USD';
 const TEMP_QUOTE_CURRENCY = 'GBP';
@@ -15,11 +16,16 @@ const TEMP_CONVERSION_RATE = .7974;
 const TEMP_CONVERSION_DATE = new Date();
 
 export default class Home extends Component {
+  static propTypes = {
+    navigation: PropTypes.object,
+  }
+
 	handlePressBaseCurrency = () => {
-		console.log('press base');
+    //when this button is presseed, navigate to a new screen
+    this.props.navigation.navigate('CurrencyList', {title: 'Base Currency'});
 	};
 	handlePressQuoteCurrency = () => {
-		console.log('press quote');
+    this.props.navigation.navigate('CurrencyList', {title: 'Quote Currency'});
 	};
 
 	handleChangeText = (text) => {
@@ -31,7 +37,7 @@ export default class Home extends Component {
   };
 
   handleOptionPress = () => {
-    console.log('option was pressed');
+    this.props.navigation.navigate('Options');
   };
 
 render() {

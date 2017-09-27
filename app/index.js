@@ -1,8 +1,7 @@
 import React from 'react';
-import Home from './screens/Home';
 import EStylesheet from 'react-native-extended-stylesheet';
-import Options from './screens/Options';
-import Themes from './screens/Themes';
+import Navigator from './config/routes';
+import {AlertProvider} from './components/Alert';
 
 //can use this to be a global scope for multiple stylesheets, allowing for easier updating
 //This is the final js page that pulls from home.js and lauches the full product to the app
@@ -21,4 +20,4 @@ EStylesheet.build({
 	// outline: 1
 });
 
- export default () => <Themes />;
+ export default () => <AlertProvider><Navigator /></AlertProvider>;
