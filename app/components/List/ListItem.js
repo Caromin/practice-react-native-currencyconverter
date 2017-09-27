@@ -6,12 +6,12 @@ import Icon from './Icon';
 
 
 //	{selected ? <Text>Selected</Text> : null} this means <-- if selected then display <text>selected, otherwise null
-const ListItem = ({text, onPress, selected=false, checkmark = true, visible = true, customIcon = null,
+const ListItem = ({text, onPress, selected=false, checkmark = true, visible = true, customIcon = null, iconBackground,
 		}) => (
 	<TouchableHighlight onPress={onPress} underlayColor={styles.$underlayColor}>
 		<View style={styles.row}>
 			<Text style={styles.text}>{text}</Text>
-      			{selected ? <Icon visible={visible} checkmark={checkmark} /> : <Icon />}
+      			{selected ? <Icon visible={visible} checkmark={checkmark} iconBackground={iconBackground} /> : <Icon />}
       			{customIcon}
 		</View>
 	</TouchableHighlight>	
@@ -24,7 +24,7 @@ ListItem.propTypes = {
 	checkmark: PropTypes.bool,
 	visible: PropTypes.bool,
 	customIcon: PropTypes.element,
-	
+	iconBackground: PropTypes.string
 };
 
 export default ListItem;
