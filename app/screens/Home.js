@@ -1,3 +1,10 @@
+//Explaination on how reverse currencies is used when the reverse currencies action is press
+//it will run the swapCurrency() which is in actions, which is then exported into the reducers.js
+//once in the reducers file it will look for the specific action type and will return whatever it is told to return
+//state.currencies.baseCurrency is the example state is the props looking at it, currencies, is the combinedreducers of all states
+//and baseCurrency is the specific variable to look to update
+
+
 import React, {Component} from 'react';
 import {View, StatusBar, KeyboardAvoidingView} from 'react-native';
 import {Container} from '../components/Container';
@@ -58,7 +65,7 @@ render() {
          <KeyboardAvoidingView behavior="padding">
            <Logo />
            <InputWithButton
-            buttonText={TEMP_BASE_CURRENCY}
+            buttonText={this.props.baseCurrency}
             onPress={this.handlePressBaseCurrency}
             defaultValue={TEMP_BASE_PRICE}
             keyboardType="numeric"
@@ -66,15 +73,15 @@ render() {
            />
            <InputWithButton
             editable={false}
-            buttonText={TEMP_QUOTE_CURRENCY}
+            buttonText={this.props.quoteCurrency}
             onPress={this.handlePressQuoteCurrency}
             value={TEMP_QUOTE_PRICE}
            />
            <LastConverted
             date={TEMP_CONVERSION_DATE}
             conversionRate={TEMP_CONVERSION_RATE}
-            base={TEMP_BASE_CURRENCY}
-            quote={TEMP_QUOTE_CURRENCY}
+            base={this.props.baseCurrency}
+            quote={this.props.propsquoteCurrency}
            />
            <ClearButton onPress={this.handleSwapCurrency} text="Reverse Currencies" />
          </KeyboardAvoidingView>
@@ -83,16 +90,17 @@ render() {
 	};
 };
 
+//passing trhe reduxz state and passing it to props
+//state = redux state, currencies is the reducer combiner, baseCurrency,etc are the props that will change
 const mapStateToProps = (state) => {
   const baseCurrency = state.currencies.baseCurrency;
   const quoteCurrency = state.currencies.quoteCurrency;
 
   return {
-
+    baseCurrency,
+    quoteCurrency,
   };
 };
 
-//these are commented out, not sure why visually they are not shown this way
 // the (Home) is a parameter that is being passed over
-
 export default connect(mapStateToProps)(Home);
