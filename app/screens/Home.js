@@ -7,7 +7,9 @@ import {ClearButton} from '../components/Button/index';
 import {LastConverted} from '../components/Text';
 import {Header} from '../components/Header';
 import PropTypes from 'prop-types';
-
+import { changeCurrencyAmount, swapCurrency } from '../actions/currencies';
+import {connect} from 'react-redux';
+ 
 const TEMP_BASE_CURRENCY = 'USD';
 const TEMP_QUOTE_CURRENCY = 'GBP';
 const TEMP_BASE_PRICE = '100';
@@ -15,9 +17,10 @@ const TEMP_QUOTE_PRICE = '79.74';
 const TEMP_CONVERSION_RATE = .7974;
 const TEMP_CONVERSION_DATE = new Date();
 
-export default class Home extends Component {
+class Home extends Component {
   static propTypes = {
     navigation: PropTypes.object,
+    dispatch: PropTypes.func,
   }
 
 	handlePressBaseCurrency = () => {
@@ -28,12 +31,12 @@ export default class Home extends Component {
     this.props.navigation.navigate('CurrencyList', {title: 'Quote Currency'});
 	};
 
-	handleChangeText = (text) => {
-		console.log('change text', text);
-	};
+  handleChangeText = (text) => {
+    this.props.dispatch(changeCurrencyAmount(text));
+}
 
   handleSwapCurrency = () => {
-    console.log('press swap');
+    this.props.dispatch(swapCurrency());
   };
 
   handleOptionPress = () => {
@@ -70,5 +73,7 @@ render() {
         </KeyboardAvoidingView >
       </Container>
 		);
-	}
-}
+	};
+};
+
+export default connect()(Home);

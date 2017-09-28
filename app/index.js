@@ -2,6 +2,8 @@ import React from 'react';
 import EStylesheet from 'react-native-extended-stylesheet';
 import Navigator from './config/routes';
 import {AlertProvider} from './components/Alert';
+import { Provider } from 'react-redux';
+import store from './config/store';
 
 //can use this to be a global scope for multiple stylesheets, allowing for easier updating
 //This is the final js page that pulls from home.js and lauches the full product to the app
@@ -20,4 +22,10 @@ EStylesheet.build({
 	// outline: 1
 });
 
- export default () => <AlertProvider><Navigator /></AlertProvider>;
+export default () => (
+  <Provider store={store}>
+    <AlertProvider>
+      <Navigator onNavigationStateChange={null} />
+    </AlertProvider>
+  </Provider>
+);
