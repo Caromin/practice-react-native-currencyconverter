@@ -3,6 +3,9 @@ import {ScrollView, StatusBar} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {ListItem, Separator} from '../components/List';
 import PropTypes from 'prop-types';
+import {changePrimaryColor} from '../actions/themes';
+// we can connect our function and have access to this.props.dispatch
+import {connect} from 'react-redux';
 
 const styles = EStyleSheet.create({
 	$blue: '$primaryBlue',
@@ -11,12 +14,15 @@ const styles = EStyleSheet.create({
 	$purple: '$primaryPurple',
 });
 
-export default class Themes extends Component {
+class Themes extends Component {
   static propTypes: {
     navigation: PropTypes.object,
+    dispatch: PropTypes.func,
   }
 
 	handlePressTheme = (color) => {
+    // passing the color given from actions themes js file
+    this.props.dispatch(changePrimaryColor(color));
 		this.props.navigation.goBack();
 	}
 
@@ -60,3 +66,5 @@ export default class Themes extends Component {
 			)
 	}
 }
+
+export default connect()(Themes);

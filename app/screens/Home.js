@@ -15,6 +15,7 @@ import {LastConverted} from '../components/Text';
 import {Header} from '../components/Header';
 import PropTypes from 'prop-types';
 import { changeCurrencyAmount, swapCurrency } from '../actions/currencies';
+//connects functions to this.props.dispatch
 import {connect} from 'react-redux';
 
 // old temp info for previous tutorial lessions
