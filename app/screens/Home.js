@@ -16,7 +16,7 @@ import {Header} from '../components/Header';
 import PropTypes from 'prop-types';
 import { changeCurrencyAmount, swapCurrency } from '../actions/currencies';
 import {connect} from 'react-redux';
- 
+
 // old temp info for previous tutorial lessions
 // const TEMP_BASE_CURRENCY = 'USD';
 // const TEMP_QUOTE_CURRENCY = 'GBP';
@@ -54,7 +54,7 @@ class Home extends Component {
     this.props.dispatch(swapCurrency());
   };
 
-  handleOptionPress = () => {
+  handleOptionsPress = () => {
     this.props.navigation.navigate('Options');
   };
 
@@ -95,7 +95,7 @@ render() {
 	};
 };
 
-//passing the reduxz state and passing it to props
+//passing the redux state and passing it to props
 //state = redux state, currencies is the reducer combiner, baseCurrency,etc are the props that will change
 //basically these are the props that are constantly being looked at for changes
 const mapStateToProps = (state) => {

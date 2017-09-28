@@ -12,6 +12,8 @@ class CurrencyList extends Component {
 	static propTypes = {
 		navigation: PropTypes.object,
 		dispatch: PropTypes.func,
+		baseCurrency: PropTypes.string,
+		quoteCurrency: PropTypes.string,
 	}
 	handlePress = (currency) => {
 		//pull type from the home screen to this screen
@@ -26,6 +28,12 @@ class CurrencyList extends Component {
 	};
 
 	render() {
+		//baseCurrency and quoteCurrency is coming from mapTateToProps below
+		let comparisonCurrency = this.props.baseCurrency;
+		if (this.props.navigation.state.params.type === 'quote') {
+				comparisonCurrency = this.props.quoteCurrency;
+		} 
+
 		return (
 			<View style={{flex: 1}}>
 				<StatusBar barStyle='default' translucent={false} />
@@ -35,7 +43,7 @@ class CurrencyList extends Component {
 					renderItem={({ item }) => (
 					<ListItem
 					text={item}
-					selected={item === TEMP_CURRENT_CURRENCY}
+					selected={item === comparisonCurrency}
 					//item is the currency that has been selected
 					onPress={() => this.handlePress(item)}
 					visible={true}
@@ -48,7 +56,14 @@ class CurrencyList extends Component {
 			</View>
 		);	
 	}
-	}
+}
+
+const mapStateToProps = (state) => {
+	return {
+		baseCurrency: state.currencies.baseCurrency,
+		quoteCurrency: state.currencies.quoteCurrency,
+	};
+};
 
 //passing currencyList to the connect function
-export default connect()(CurrencyList);
+export default connect(mapStateToProps)(CurrencyList);
