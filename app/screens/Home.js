@@ -17,12 +17,13 @@ import PropTypes from 'prop-types';
 import { changeCurrencyAmount, swapCurrency } from '../actions/currencies';
 import {connect} from 'react-redux';
  
-const TEMP_BASE_CURRENCY = 'USD';
-const TEMP_QUOTE_CURRENCY = 'GBP';
-const TEMP_BASE_PRICE = '100';
-const TEMP_QUOTE_PRICE = '79.74';
-const TEMP_CONVERSION_RATE = .7974;
-const TEMP_CONVERSION_DATE = new Date();
+// old temp info for previous tutorial lessions
+// const TEMP_BASE_CURRENCY = 'USD';
+// const TEMP_QUOTE_CURRENCY = 'GBP';
+// const TEMP_BASE_PRICE = '100';
+// const TEMP_QUOTE_PRICE = '79.74';
+// const TEMP_CONVERSION_RATE = .7974;
+// const TEMP_CONVERSION_DATE = new Date();
 
 
 class Home extends Component {
@@ -58,6 +59,10 @@ class Home extends Component {
   };
 
 render() {
+  let quotePrice = (this.props.amount * this.props.conversionRate).toFixed(2);
+    if (this.props.isFetching) {
+    quotePrice = '...';
+    }
      return (
        <Container>
          <StatusBar backgroundColor="blue" barStyle="light-content" />
@@ -67,7 +72,7 @@ render() {
            <InputWithButton
             buttonText={this.props.baseCurrency}
             onPress={this.handlePressBaseCurrency}
-            defaultValue={TEMP_BASE_PRICE}
+            defaultValue={this.props.amount.toString()}
             keyboardType="numeric"
             onChangeText={this.handleChangeText}
            />
@@ -75,11 +80,11 @@ render() {
             editable={false}
             buttonText={this.props.quoteCurrency}
             onPress={this.handlePressQuoteCurrency}
-            value={TEMP_QUOTE_PRICE}
+            value={quotePrice}
            />
            <LastConverted
-            date={TEMP_CONVERSION_DATE}
-            conversionRate={TEMP_CONVERSION_RATE}
+            date={this.props.lastConvertedDate}
+            conversionRate={this.props.conversionRate}
             base={this.props.baseCurrency}
             quote={this.props.propsquoteCurrency}
            />
@@ -90,15 +95,22 @@ render() {
 	};
 };
 
-//passing trhe reduxz state and passing it to props
+//passing the reduxz state and passing it to props
 //state = redux state, currencies is the reducer combiner, baseCurrency,etc are the props that will change
+//basically these are the props that are constantly being looked at for changes
 const mapStateToProps = (state) => {
   const baseCurrency = state.currencies.baseCurrency;
   const quoteCurrency = state.currencies.quoteCurrency;
+  const conversionSelector = state.currencies.conversions[baseCurrency] || {};
+  const rates = conversionSelector.rates || {};
 
   return {
     baseCurrency,
     quoteCurrency,
+    amount: state.currencies.amount,
+    conversionRate: rates[quoteCurrency] || 0,
+    lastConvertedDate: conversionSelector.date ? new Date(conversionSelector.date) : new Date(),
+    isFetching: conversionSelector.isFetching,
   };
 };
 
