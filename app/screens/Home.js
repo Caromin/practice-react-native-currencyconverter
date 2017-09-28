@@ -17,11 +17,18 @@ const TEMP_QUOTE_PRICE = '79.74';
 const TEMP_CONVERSION_RATE = .7974;
 const TEMP_CONVERSION_DATE = new Date();
 
+
 class Home extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     dispatch: PropTypes.func,
-  }
+    baseCurrency: PropTypes.string,
+    quoteCurrency: PropTypes.string,
+    amount: PropTypes.number,
+    conversionRate: PropTypes.number,
+    lastConvertedDate: PropTypes.object,
+    isFetching: PropTypes.bool,
+  };
 
 	handlePressBaseCurrency = () => {
     //when this button is presseed, navigate to a new screen
@@ -44,36 +51,48 @@ class Home extends Component {
   };
 
 render() {
-   return (
-      <Container>
-        <StatusBar backgroundColor="blue" barStyle="light-content" />
-        <Header onPress={this.handleOptionPress} />
-        <KeyboardAvoidingView behavior='padding'>
-        <Logo />
-        <InputWithButton
-          buttonText={TEMP_BASE_CURRENCY}
-          onPress={this.handlePressBaseCurrency}
-          defaultValue={TEMP_BASE_PRICE}
-          keyboardType="numeric"
-          onChangeText={this.handleChangeText}
-        />
-        <InputWithButton
-          editable={false}
-          buttonText={TEMP_QUOTE_CURRENCY}
-          onPress={this.handlePressQuoteCurrency}
-          value={TEMP_QUOTE_PRICE}
-        />
-        <LastConverted 
-          date = {TEMP_CONVERSION_DATE}
-          base = {TEMP_BASE_CURRENCY}
-          quote = {TEMP_QUOTE_CURRENCY}
-          conversionRate = {TEMP_CONVERSION_RATE}
-        />
-        <ClearButton text='Reverse Currencies' onPress={this.handleSwapCurrency} />
-        </KeyboardAvoidingView >
+     return (
+       <Container>
+         <StatusBar backgroundColor="blue" barStyle="light-content" />
+         <Header onPress={this.handleOptionsPress} />
+         <KeyboardAvoidingView behavior="padding">
+           <Logo />
+           <InputWithButton
+            buttonText={TEMP_BASE_CURRENCY}
+            onPress={this.handlePressBaseCurrency}
+            defaultValue={TEMP_BASE_PRICE}
+            keyboardType="numeric"
+            onChangeText={this.handleChangeText}
+           />
+           <InputWithButton
+            editable={false}
+            buttonText={TEMP_QUOTE_CURRENCY}
+            onPress={this.handlePressQuoteCurrency}
+            value={TEMP_QUOTE_PRICE}
+           />
+           <LastConverted
+            date={TEMP_CONVERSION_DATE}
+            conversionRate={TEMP_CONVERSION_RATE}
+            base={TEMP_BASE_CURRENCY}
+            quote={TEMP_QUOTE_CURRENCY}
+           />
+           <ClearButton onPress={this.handleSwapCurrency} text="Reverse Currencies" />
+         </KeyboardAvoidingView>
       </Container>
 		);
 	};
 };
 
-export default connect()(Home);
+const mapStateToProps = (state) => {
+  const baseCurrency = state.currencies.baseCurrency;
+  const quoteCurrency = state.currencies.quoteCurrency;
+
+  return {
+
+  };
+};
+
+//these are commented out, not sure why visually they are not shown this way
+// the (Home) is a parameter that is being passed over
+
+export default connect(mapStateToProps)(Home);
