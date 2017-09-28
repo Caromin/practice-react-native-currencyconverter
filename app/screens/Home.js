@@ -40,10 +40,10 @@ class Home extends Component {
 
 	handlePressBaseCurrency = () => {
     //when this button is presseed, navigate to a new screen
-    this.props.navigation.navigate('CurrencyList', {title: 'Base Currency'});
+    this.props.navigation.navigate('CurrencyList', {title: 'Base Currency', type: 'base'});
 	};
 	handlePressQuoteCurrency = () => {
-    this.props.navigation.navigate('CurrencyList', {title: 'Quote Currency'});
+    this.props.navigation.navigate('CurrencyList', {title: 'Quote Currency', type: 'quote'});
 	};
 
   handleChangeText = (text) => {
@@ -108,6 +108,7 @@ const mapStateToProps = (state) => {
     baseCurrency,
     quoteCurrency,
     amount: state.currencies.amount,
+    //this is saying look at initialstate rates and grab the number for example AUD which is 1.34 to USD
     conversionRate: rates[quoteCurrency] || 0,
     lastConvertedDate: conversionSelector.date ? new Date(conversionSelector.date) : new Date(),
     isFetching: conversionSelector.isFetching,

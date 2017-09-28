@@ -1,6 +1,9 @@
 //easier to debug if errors occur by removing the string from the actions directly
+//think of actions as setting up data structure for passing into reducers
 export const CHANGE_CURRENCY_AMOUNT = 'CHANGE_CURRENCY_AMOUNT';
 export const SWAP_CURRENCY = 'SWAP_CURRENCY';
+export const CHANGE_BASE_CURRENCY = 'CHANGE_BASE_CURRENCY';
+export const CHANGE_QUOTE_CURRENCY = 'CHANGE_QUOTE_CURRENCY';
 
 //this is an action, which is just a function that is called
 export const changeCurrencyAmount = amount => ({
@@ -10,4 +13,16 @@ export const changeCurrencyAmount = amount => ({
 
 export const swapCurrency = () => ({
   type: SWAP_CURRENCY,
+});
+
+
+export const changeBaseCurrency = currency => ({
+	type: CHANGE_BASE_CURRENCY,
+	currency,
+});
+
+
+export const changeQuoteCurrency = currency => ({
+	type: CHANGE_QUOTE_CURRENCY,
+	currency,
 });
