@@ -20,16 +20,21 @@ const fetchLatestConversionRates = function* (action) {
 	let currency = action.currency;
 	if (currency === undefined) {
 	//select gives us access to the entire redux state
+	// so if their is no default action.currency like when first loaded, it will use the default in reduces/currencies file
 		currency = yield select(state => state.currencies.baseCurrency);
 	}
+	//currency is the action that is passed from the rootSaga function ex. selecting AUD,
+	//will result in AUD being called in the getLatestRate
 	const response = yield call(getLatestRate, currency);
 	//add yield for the conversion to happen first
+	//now the reponse call from above is converted into a json object
 	const result = yield response.json();
 
 	if (result.error) {
 		yield put({type: CONVERSION_ERROR, error: result.error});
 	} else {
 		// if there is a successful conversion result
+		//it will go to CONVERSION_RESULT in reducers/currencies file
 		yield put({type: CONVERSION_RESULT, result});
 	}
   } catch (error) {
@@ -38,6 +43,7 @@ const fetchLatestConversionRates = function* (action) {
 };
 
 const rootSaga = function* () {
+	// if any of these functions in another file are used, their actions are passed to fetchLatestConversionRates function
 	yield takeEvery(GET_INITIAL_CONVERSION, fetchLatestConversionRates);
 	yield takeEvery(CHANGE_BASE_CURRENCY, fetchLatestConversionRates);
 	yield takeEvery(SWAP_CURRENCY, fetchLatestConversionRates);

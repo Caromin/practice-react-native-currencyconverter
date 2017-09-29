@@ -19,7 +19,7 @@ EStylesheet.build({
 	$darkText: '#343434'
 
 	//helpfully to show how each component is layed out, great tool
-	// outline: 1
+	outline: 1
 });
 
 export default () => (
