@@ -3,8 +3,6 @@
 //once in the reducers file it will look for the specific action type and will return whatever it is told to return
 //state.currencies.baseCurrency is the example state is the props looking at it, currencies, is the combinedreducers of all states
 //and baseCurrency is the specific variable to look to update
-
-
 import React, {Component} from 'react';
 import {View, StatusBar, KeyboardAvoidingView} from 'react-native';
 import {Container} from '../components/Container';
@@ -18,15 +16,6 @@ import { changeCurrencyAmount, swapCurrency } from '../actions/currencies';
 //connects functions to this.props.dispatch
 import {connect} from 'react-redux';
 
-// old temp info for previous tutorial lessions
-// const TEMP_BASE_CURRENCY = 'USD';
-// const TEMP_QUOTE_CURRENCY = 'GBP';
-// const TEMP_BASE_PRICE = '100';
-// const TEMP_QUOTE_PRICE = '79.74';
-// const TEMP_CONVERSION_RATE = .7974;
-// const TEMP_CONVERSION_DATE = new Date();
-
-
 class Home extends Component {
   static propTypes = {
     navigation: PropTypes.object,
@@ -37,6 +26,7 @@ class Home extends Component {
     conversionRate: PropTypes.number,
     lastConvertedDate: PropTypes.object,
     isFetching: PropTypes.bool,
+    primaryColor: PropTypes.string,
   };
 
 	handlePressBaseCurrency = () => {
@@ -49,7 +39,7 @@ class Home extends Component {
 
   handleChangeText = (text) => {
     this.props.dispatch(changeCurrencyAmount(text));
-}
+  };
 
   handleSwapCurrency = () => {
     this.props.dispatch(swapCurrency());
@@ -65,23 +55,25 @@ render() {
     quotePrice = '...';
     }
      return (
-       <Container>
+       <Container backgroundColor={this.props.primaryColor}>
          <StatusBar backgroundColor="blue" barStyle="light-content" />
          <Header onPress={this.handleOptionsPress} />
          <KeyboardAvoidingView behavior="padding">
-           <Logo />
+           <Logo tintColor={this.props.primaryColor} />
            <InputWithButton
             buttonText={this.props.baseCurrency}
             onPress={this.handlePressBaseCurrency}
             defaultValue={this.props.amount.toString()}
             keyboardType="numeric"
             onChangeText={this.handleChangeText}
+            textColor={this.props.primaryColor}
            />
            <InputWithButton
             editable={false}
             buttonText={this.props.quoteCurrency}
             onPress={this.handlePressQuoteCurrency}
             value={quotePrice}
+            textColor={this.props.primaryColor}
            />
            <LastConverted
             date={this.props.lastConvertedDate}
@@ -113,6 +105,7 @@ const mapStateToProps = (state) => {
     conversionRate: rates[quoteCurrency] || 0,
     lastConvertedDate: conversionSelector.date ? new Date(conversionSelector.date) : new Date(),
     isFetching: conversionSelector.isFetching,
+    primaryColor: state.theme.primaryColor,
   };
 };
 

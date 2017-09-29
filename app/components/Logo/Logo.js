@@ -1,10 +1,15 @@
 import React, {Component} from 'react';
 import {View, Image, Text, Keyboard, Animated} from 'react-native';
 import styles from './styles'
+import PropTypes from 'prop-types';
 
 const ANIMATION_DURATION = 250;
 
-export default class Logo extends Component {
+class Logo extends Component {
+	static propTypes = {
+		tintColor: PropTypes.string,
+	}
+
 	constructor(props) {
 		super(props);
 		//below is saying that the default animated values are large for both, but because they 
@@ -61,16 +66,28 @@ export default class Logo extends Component {
 	];
 
 	const imageStyle = [
-		styles.logo, {width: this.imageWidth}
-	]
+		styles.logo, 
+		{width: this.imageWidth},
+		//if the tiltColor does exist, in this cause it does, use this.props.tiltColor, otherwise null
+		this.props.tintColor ? { tintColor: this.props.tintColor } : null,
+	];
 
 		return (
 			<View style={styles.container}>
-				<Animated.Image resizeMode='contain' style={containerImageStyle} source={require('./images/background.png')} >
-					<Animated.Image resizeMode='contain' style={imageStyle} source={require('./images/logo.png')} />
+				<Animated.Image 
+					resizeMode='contain' 
+					style={containerImageStyle} 
+					source={require('./images/background.png')} >
+				<Animated.Image 
+					resizeMode='contain' 
+					style={imageStyle} 
+					source={require('./images/logo.png')} 
+				/>
 				</Animated.Image>
 				<Text style={styles.Text}>Currency Converter</Text>
 			</View>
-		)
+		);
 	}
-};
+}
+
+export default Logo;

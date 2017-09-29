@@ -8,9 +8,9 @@ import color from 'color';
 //from the home.js to complete itself.
 const InputWithButton = (props) => {
 	//i am calling all of these const variables props to shorten calling the property
-	//instead of props.onpress it is now onpress
+	//====>instead of props.onpress it is now onpress
 	//...props is es2015 shortcut to loop through everything, in this case its everything in const props
-	const {onPress, buttonText, editable = true} = props;
+	const {onPress, buttonText, editable = true, textColor} = props;
 
 	//local color variable that uses a color library and the local styles sheet to darken button by 0.1 when pressed
 	const underlayColor = color(styles.$buttonBackgroundColorBase).darken(styles.$buttonBackgroundColorModifier);
@@ -20,11 +20,13 @@ const InputWithButton = (props) => {
 	if (editable === false) {
 		containerStyles.push(styles.containerDisabled);
 	}
+	const buttonTextStyles = [styles.buttonText];
+	if (textColor) {buttonTextStyles.push({color: textColor})};
 
 	return (
 	<View style={containerStyles}>
 		<TouchableHighlight underlayColor={underlayColor} style={styles.buttonContainer} onPress={onPress}>
-		<Text style={styles.buttonText} >{buttonText}</Text>
+		<Text style={buttonTextStyles} >{buttonText}</Text>
 		</TouchableHighlight>
 		<View style={styles.border} />
 
@@ -40,6 +42,7 @@ InputWithButton.propTypes= {
 	onPress: PropTypes.func,
 	buttonText: PropTypes.string,
 	editable: PropTypes.bool,
+	textColor: PropTypes.string,
 };
 
 export default InputWithButton;

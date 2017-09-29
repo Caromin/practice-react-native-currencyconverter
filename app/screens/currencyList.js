@@ -14,6 +14,7 @@ class CurrencyList extends Component {
 		dispatch: PropTypes.func,
 		baseCurrency: PropTypes.string,
 		quoteCurrency: PropTypes.string,
+		primaryColor: PropTypes.string,
 	}
 	handlePress = (currency) => {
 		//pull type from the home screen to this screen
@@ -48,6 +49,9 @@ class CurrencyList extends Component {
 					onPress={() => this.handlePress(item)}
 					visible={true}
 					checkmark={true}
+					//this is all you needed to dynamically change this theme, this.props.primaryColor 
+					//calls on the redux store (see mapStateToProps below)
+					iconBackground={this.props.primaryColor}
 					/>
 					)}
 					keyExtractor={item => item}
@@ -62,6 +66,8 @@ const mapStateToProps = (state) => {
 	return {
 		baseCurrency: state.currencies.baseCurrency,
 		quoteCurrency: state.currencies.quoteCurrency,
+		//these are the global props, state = props, theme, name of the folder, primaryColor, is the specific action
+		primaryColor: state.theme.primaryColor,
 	};
 };
 
