@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import { changeCurrencyAmount, swapCurrency, getInitialConversion } from '../actions/currencies';
 //connects functions to this.props.dispatch
 import {connect} from 'react-redux';
+import {connectAlert} from '../components/Alert';
 
 class Home extends Component {
   static propTypes = {
@@ -27,12 +28,22 @@ class Home extends Component {
     lastConvertedDate: PropTypes.object,
     isFetching: PropTypes.bool,
     primaryColor: PropTypes.string,
+    alertWithType: PropTypes.func,
+    currencyError: PropTypes.string,
   };
 
   //this will be called before the home screen mounts
   componentWillMount() {
     this.props.dispatch(getInitialConversion());
   };
+
+  //have access to this.props and also the props in nextProps
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currencyError && nextProps.currencyError !== this.props.currencyError) {
+      //error = type, Error = title, nextProps.currencyError = state.currencies.error which starts at null
+      this.props.alertWithType('error', 'Error', nextProps.currencyError);
+    }
+  }
 
 	handlePressBaseCurrency = () => {
     //when this button is presseed, navigate to a new screen
@@ -111,8 +122,9 @@ const mapStateToProps = (state) => {
     lastConvertedDate: conversionSelector.date ? new Date(conversionSelector.date) : new Date(),
     isFetching: conversionSelector.isFetching,
     primaryColor: state.theme.primaryColor,
+    currencyError: state.currencies.error,
   };
 };
 
 // the (Home) is a parameter that is being passed over
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(connectAlert(Home));
