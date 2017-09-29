@@ -12,7 +12,7 @@ import {ClearButton} from '../components/Button/index';
 import {LastConverted} from '../components/Text';
 import {Header} from '../components/Header';
 import PropTypes from 'prop-types';
-import { changeCurrencyAmount, swapCurrency } from '../actions/currencies';
+import { changeCurrencyAmount, swapCurrency, getInitialConversion } from '../actions/currencies';
 //connects functions to this.props.dispatch
 import {connect} from 'react-redux';
 
@@ -27,6 +27,11 @@ class Home extends Component {
     lastConvertedDate: PropTypes.object,
     isFetching: PropTypes.bool,
     primaryColor: PropTypes.string,
+  };
+
+  //this will be called before the home screen mounts
+  componentWillMount() {
+    this.props.dispatch(getInitialConversion());
   };
 
 	handlePressBaseCurrency = () => {
